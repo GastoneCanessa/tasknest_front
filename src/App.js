@@ -5,6 +5,7 @@ import Navbar from './components/common/Navbar';
 import Homepage from './pages/Home';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import { atom } from 'jotai';
 
 export const currentU = atom(JSON.parse(localStorage.getItem('user')) ?? {})
 
