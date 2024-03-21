@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-export default function YourBoards() {
+export default function YourBoards(props) {
     const [boards, setBoards] = useState([]);
 
     useEffect(
@@ -26,6 +26,9 @@ export default function YourBoards() {
                     <div className="card">
                         <div className="card-body">
                             <h5 className="card-title">{board.title}</h5>
+                            <button type="button" className="btn btn-primary" onClick={() => props.setBoard(board)}>
+                                Scegli
+                            </button>
                         </div>
                     </div>
                 </div>
