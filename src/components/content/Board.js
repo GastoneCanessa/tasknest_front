@@ -112,7 +112,7 @@ export default function Board(props) {
                                                 {(provided) => (
                                                     <div ref={provided.innerRef} {...provided.droppableProps}>
                                                         {list.my_tasks && list.my_tasks.map((task, taskIndex) => (
-                                                            <DraggableTask key={task.id} task={task} index={taskIndex} />
+                                                            <SingleTask key={task.id} task={task} index={taskIndex} />
                                                         ))}
                                                         {provided.placeholder}
                                                     </div>
@@ -128,26 +128,5 @@ export default function Board(props) {
                 )}
             </Droppable>
         </DragDropContext>
-    );
-}
-
-function DraggableTask({ task, index }) {
-    return (
-        <Draggable draggableId={String(task.id)} index={index} >
-            {(provided) => (
-                <div
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                    className="card my-2"
-                >
-                    <div className="card-content">
-                        <p>{task.title}</p>
-                        <p>{task.position}</p>
-                        {/* Dettagli della task */}
-                    </div>
-                </div>
-            )}
-        </Draggable>
     );
 }
