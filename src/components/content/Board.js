@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import SingleTask from "./SingleTask";
+// import SingleTask from "./SingleTask";
 
 export default function Board(props) {
     const [board, setBoard] = useState({ my_tasklists: [], title: "azz" });
@@ -65,13 +65,28 @@ export default function Board(props) {
                 newBoard.my_tasklists[startListIndex].my_tasks = newStartTasks;
                 setBoard(newBoard); // Aggiorna lo stato in maniera ottimistica
             } else {
-                // Gestisci lo spostamento tra liste diverse se necessario
+                // Rimuovi la task dalla sua lista originale
+                const newStartTasks = Array.from(startList.my_tasks);
+                const [movedTask] = newStartTasks.splice(source.index, 1);
+
+                // Aggiungi la task alla lista di destinazione
+                const newFinishTasks = Array.from(finishList.my_tasks);
+                newFinishTasks.splice(destination.index, 0, movedTask);
+
+                // Aggiorna lo stato con le liste modificate
+                const newBoard = { ...board };
+                newBoard.my_tasklists[startListIndex].my_tasks = newStartTasks;
+                newBoard.my_tasklists[finishListIndex].my_tasks = newFinishTasks;
+
+                setBoard(newBoard);
             }
 
             // Successivamente, effettua la chiamata al server per aggiornare la posizione della task
             axios.put(`/tasks`, {
                 id: draggableId,
-                position: destination.index + 1
+                position: destination.index + 1,
+                taskLP: finishListIndex + 1,
+                boardId: board.id
             })
                 .then(() => {
                     loadBoard();
@@ -128,5 +143,26 @@ export default function Board(props) {
                 )}
             </Droppable>
         </DragDropContext>
+    );
+}
+
+function SingleTask({ task, index }) {
+    return (
+        <Draggable draggableId={String(task.id)} index={index}>
+            {(provided) => (
+                <div
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    className="card my-2"
+                >
+                    <div className="card-content">
+                        <p>{task.title}</p>
+                        <p>{task.position}</p>
+                        {/* Qui puoi aggiungere ulteriori dettagli della task */}
+                    </div>
+                </div>
+            )}
+        </Draggable>
     );
 }
