@@ -31,7 +31,7 @@ export default function Login() {
             .then((response) => {
 
                 setUser(response.data);
-                navigate("/");
+                navigate("/user/home");
             })
             .catch((error) => {
                 if (error.response) {

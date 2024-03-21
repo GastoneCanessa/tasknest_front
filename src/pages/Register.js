@@ -32,7 +32,7 @@ export default function Register() {
         axios.post("/user/register", registrationData)
             .then((response) => {
                 setUser(response.data);
-                navigate("/");
+                navigate("/user/home");
             })
             .catch((error) => {
                 if (error.response) {
