@@ -8,7 +8,7 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export default function Login() {
 
-    const [user, setUser] = useAtom(currentUser)
+    const [user, setUser] = useAtom(currentUser);
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState("");
     const [showErrorPopup, setShowErrorPopup] = useState(false);
