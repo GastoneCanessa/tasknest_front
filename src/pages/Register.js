@@ -64,29 +64,30 @@ export default function Register() {
 
     return (
         <>
-            <div className="container  form-container col-6 my-4 ">
-                <form className="p-4">
-                    <div className="mb-3">
-                        <label className="form-label">Insert Name</label>
-                        <input name="name" type="text" className="form-control" onChange={synchronize} />
-                    </div>
-                    <div className="mb-3">
-                        <label className="form-label">Insert Email</label>
-                        <p className='small-descr'>At least 8 characters,min 1 MAIUSC, 1 minusc, 1 number, 1 special char</p>
-                        <input name="email" type="email" className="form-control" aria-describedby="emailHelp" onChange={synchronize} />
-                    </div>
+            <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "90vh" }}>
+                <div className="container form-container d-flex justify-content-center align-items-center p-4 my-5 col-5" style={{ backgroundColor: "#4D5771", borderRadius: "20px", height: "60vh" }}>
+                    <form className="p-4" style={{ width: "60vh" }}>
+                        <div className="mb-3">
+                            <label className="form-label fs-2" style={{ color: "white" }}>Insert Name</label>
+                            <input name="name" type="text" className="form-control" onChange={synchronize} />
+                        </div>
+                        <div className="mb-3">
+                            <label className="form-label fs-2" style={{ color: "white" }}>Insert Email</label>
 
-                    <div className="mb-3">
-                        <label className="form-label">Insert Password</label>
-                        <input name="password" type="password" className="form-control" onChange={synchronize} />
-                    </div>
+                            <input name="email" type="email" className="form-control" aria-describedby="emailHelp" onChange={synchronize} />
+                        </div>
 
-                    <div className="d-flex justify-content-center">
-                        <input className="btn btn-dark" type="button" onClick={sendRegistration} value="Register" />
-                    </div>
-                </form>
+                        <div className="mb-3">
+                            <label className="form-label fs-2" style={{ color: "white" }}>Insert Password</label>
+                            <input name="password" type="password" className="form-control " onChange={synchronize} />
+                        </div>
+
+                        <div className="d-flex justify-content-center">
+                            <input className="btn  mb-2 mt-5 fs-4 fw-lighter" style={{ background: "#2C3240", color: "white", width: "20vh" }} type="button" onClick={sendRegistration} value="Register" />
+                        </div>
+                    </form>
+                </div>
             </div>
-
             {showErrorPopup && <ErrorPopup message={errorMessage} onClose={() => setShowErrorPopup(false)} />}
         </>
     )
