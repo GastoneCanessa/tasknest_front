@@ -2,11 +2,12 @@ import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Navbar from './components/common/Navbar';
-import Homepage from './pages/Home';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import "bootstrap/dist/css/bootstrap.css";
 import { atom } from 'jotai';
+import Homepage from './components/content/Homepage';
+import Home from './pages/Home';
 
 export const currentU = atom(JSON.parse(localStorage.getItem('user')) ?? {})
 
@@ -28,6 +29,7 @@ function App() {
         <Route index element={<Homepage />} />
         <Route path="/user/register" element={<Register />} />
         <Route path="/user/login" element={<Login />} />
+        <Route path="/user/home" element={<Home />} />
       </Routes>
     </BrowserRouter >
   );

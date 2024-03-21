@@ -1,9 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import SingleTask from "./SingleTask";
 
 export default function Board(props) {
-    const [board, setBoard] = useState({ my_tasklists: [], title: "azz"});
+    const [board, setBoard] = useState({ my_tasklists: [], title: "azz" });
 
     const loadBoard = () => {
         axios.get(`/boards/${props.board.id}`)
@@ -34,16 +35,20 @@ export default function Board(props) {
 
         axios.put('/list/position', {
             idList: reorderedItem.id,
-            newPosition: destination.index+1
+            newPosition: destination.index + 1
         })
-        .then(() => {
-            console.log('Posizione aggiornata con successo.');
-            loadBoard();
-        })
-        .catch((error) => {
-            console.error('Errore nell\'aggiornamento della posizione:', error);
-        });
+            .then(() => {
+                console.log('Posizione aggiornata con successo.');
+                loadBoard();
+            })
+            .catch((error) => {
+                console.error('Errore nell\'aggiornamento della posizione:', error);
+            });
     };
+
+
+
+
     return (
         <DragDropContext onDragEnd={onDragEnd}>
             <h1>{board.title}</h1>
@@ -66,6 +71,9 @@ export default function Board(props) {
                                         <div className="card p-3">
                                             <p>{list.title}</p>
                                             <p>{list.position}</p>
+                                            {list.my_tasks && list.my_tasks.map((t) => (
+                                                <SingleTask t={t} padre={list} />
+                                            ))}
                                         </div>
                                     </div>
                                 )}
