@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-// import SingleTask from "./SingleTask";
+import SingleTask from "./SingleTask";
+
+
 
 export default function Board(props) {
     const [board, setBoard] = useState({ my_tasklists: [], title: "azz" });
@@ -85,7 +87,6 @@ export default function Board(props) {
             axios.put(`/tasks`, {
                 id: draggableId,
                 position: destination.index + 1,
-                // tasklistId: 
                 tasklistPosition: finishListIndex + 1,
                 boardId: board.id
             })
@@ -147,23 +148,23 @@ export default function Board(props) {
     );
 }
 
-function SingleTask({ task, index }) {
-    return (
-        <Draggable draggableId={String(task.id)} index={index}>
-            {(provided) => (
-                <div
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                    className="card my-2"
-                >
-                    <div className="card-content">
-                        <p>{task.title}</p>
-                        <p>{task.position}</p>
-                        {/* Qui puoi aggiungere ulteriori dettagli della task */}
-                    </div>
-                </div>
-            )}
-        </Draggable>
-    );
-}
+// function SingleTask({ task, index }) {
+//     return (
+//         <Draggable draggableId={String(task.id)} index={index}>
+//             {(provided) => (
+//                 <div
+//                     ref={provided.innerRef}
+//                     {...provided.draggableProps}
+//                     {...provided.dragHandleProps}
+//                     className="card my-2"
+//                 >
+//                     <div className="card-content">
+//                         <p>{task.title}</p>
+//                         <p>{task.position}</p>
+//                         {/* Qui puoi aggiungere ulteriori dettagli della task */}
+//                     </div>
+//                 </div>
+//             )}
+//         </Draggable>
+//     );
+// }
