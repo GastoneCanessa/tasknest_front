@@ -8,6 +8,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { atom } from 'jotai';
 import Homepage from './components/content/Homepage';
 import Home from './pages/Home';
+import BackgroundSelector from './components/common/BackgroundSelector';
 
 export const currentU = atom(JSON.parse(localStorage.getItem('user')) ?? {})
 
@@ -30,6 +31,7 @@ function App() {
         <Route path="/user/register" element={<Register />} />
         <Route path="/user/login" element={<Login />} />
         <Route path="/user/home" element={<Home />} />
+        <Route path="/user/bgSelector" element={<BackgroundSelector/>} />
       </Routes>
     </BrowserRouter >
   );

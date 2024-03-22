@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import backgrounds from '../../assets/background'; // Assicurati di inserire il percorso corretto
 
 const BackgroundSelector = () => {
-  const [selectedBackground, setSelectedBackground] = useState('');
-
-  const submitBackground = async () => {
+  const selectBackground = async (path) => {
     try {
       // Sostituisci 'your-backend-url' con l'URL effettivo del tuo backend
       const response = await fetch('your-backend-url', {
@@ -12,33 +10,22 @@ const BackgroundSelector = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ background: selectedBackground }),
+        body: JSON.stringify({ background: path }),
       });
       const data = await response.json();
       console.log(data); // Gestisci la risposta come preferisci
     } catch (error) {
-      console.error('Error submitting background:', error);
+      console.error('Error selecting background:', error);
     }
   };
 
   return (
-    <div>
+    <div className='row m-5'>
       {Object.entries(backgrounds).map(([id, path]) => (
-        <div key={id} style={{ marginBottom: '10px' }}>
-          <input
-            type="radio"
-            id={`background-${id}`}
-            name="background"
-            value={path}
-            onChange={(e) => setSelectedBackground(e.target.value)}
-            checked={selectedBackground === path}
-          />
-          <label htmlFor={`background-${id}`}>
-            <img src={path} alt={`Sfondo ${id}`} style={{ width: '100px', height: 'auto' }} />
-          </label>
+        <div className='col' key={id} onClick={() => selectBackground(path)} style={{ cursor: 'pointer', marginBottom: '10px' }}>
+          <img className='rounded-3' src={path} alt={`Sfondo ${id}`} style={{ width: '300px', height: '180px' }} />
         </div>
       ))}
-      <button onClick={submitBackground}>Imposta Sfondo</button>
     </div>
   );
 };
