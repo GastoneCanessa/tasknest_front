@@ -7,7 +7,7 @@ const BackgroundSelector = () => {
         try {
             const response = await axios.put('/boards/img',
                 { 
-                    id:1,
+                    idBoard:1,
                     imgId: id 
                 }
             );
@@ -21,7 +21,7 @@ const BackgroundSelector = () => {
         <div className='row m-5'>
             {Object.entries(backgrounds).map(([id, path]) => (
                 <div className='col' key={id} onClick={() => selectBackground(id)} style={{ cursor: 'pointer', marginBottom: '10px' }}>
-                    <img src={path} alt={`Sfondo ${id}`} style={{ width: '300px', height: '180px' }} />
+                    <img src={path} alt={`Sfondo ${id}`} style={{ width: '150px', height: '90px' }} />
                 </div>
             ))}
         </div>
