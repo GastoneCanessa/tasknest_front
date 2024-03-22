@@ -1,5 +1,6 @@
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
+import { Link } from 'react-router-dom';
 
 function SingleTask({ task, index }) {
     return (
@@ -11,7 +12,9 @@ function SingleTask({ task, index }) {
                     {...provided.dragHandleProps}
                     className="card my-2"
                 >
-                    <div className="card-content">
+                    <div className="card-content px-3 py-1">
+                        <Link className=" " to={"/task/" + task.id}>premi qui</Link>
+
                         <p>{task.title}</p>
                         <p>{task.position}</p>
                         {/* Qui puoi aggiungere ulteriori dettagli della task */}

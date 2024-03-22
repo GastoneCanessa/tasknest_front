@@ -1,14 +1,15 @@
-import logo from './logo.svg';
+
 import './App.css';
+import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { atom } from 'jotai';
 import Navbar from './components/common/Navbar';
+import CardTask from './components/content/CardTask';
+import Homepage from './components/content/Homepage';
+import BackgroundSelector from './components/common/BackgroundSelector';
 import Register from './pages/Register';
 import Login from './pages/Login';
-import "bootstrap/dist/css/bootstrap.css";
-import { atom } from 'jotai';
-import Homepage from './components/content/Homepage';
 import Home from './pages/Home';
-import BackgroundSelector from './components/common/BackgroundSelector';
 
 export const currentU = atom(JSON.parse(localStorage.getItem('user')) ?? {})
 
@@ -31,7 +32,8 @@ function App() {
         <Route path="/user/register" element={<Register />} />
         <Route path="/user/login" element={<Login />} />
         <Route path="/user/home" element={<Home />} />
-        <Route path="/user/bgSelector" element={<BackgroundSelector/>} />
+        <Route path="/user/bgSelector" element={<BackgroundSelector />} />
+        <Route path="/task/:id" element={<CardTask />} />
       </Routes>
     </BrowserRouter >
   );
