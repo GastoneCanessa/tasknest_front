@@ -85,7 +85,8 @@ export default function Board(props) {
             axios.put(`/tasks`, {
                 id: draggableId,
                 position: destination.index + 1,
-                taskLP: finishListIndex + 1,
+                // tasklistId: 
+                tasklistPosition: finishListIndex + 1,
                 boardId: board.id
             })
                 .then(() => {
