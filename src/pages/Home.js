@@ -6,6 +6,7 @@ import { currentUser } from '../App';
 import { useAtom } from 'jotai';
 import Board from '../components/content/Board';
 import axios from 'axios';
+import backgrounds from '../assets/background';
 
 export default function Home() {
     const [user, setUser] = useAtom(currentUser)
@@ -34,11 +35,13 @@ export default function Home() {
 
     return (
         <div className="row" style={{ minHeight: "92vh" }}>
-            <div className="col-2 p-3" style={{ background: "#cdc0d7" }}><YourBoardsSide boards={boards} setBoard={setBoard} handleNewBoardAdded={handleNewBoardAdded}/></div>
-            <div className="col-10 py-3 px-5 py-1" style={{  }}>
-                {isBoardEmpty() ? <YourBoards setBoard={setBoard}  boards={boards} /> : <Board board={board} />}
-            </div>
-            {/* <div className="col-2 p-5" style={{ background: "red" }}>Sidebar Left</div> */}
+            <div className="col-2 p-3" style={{ background: "#cdc0d7" }}><YourBoardsSide boards={boards} setBoard={setBoard} handleNewBoardAdded={handleNewBoardAdded} /></div>
+
+            {isBoardEmpty() ? 
+            <div className="col-10 py-3 px-5 py-1" ><YourBoards setBoard={setBoard} boards={boards} /> </div>
+            : 
+            <div className="col-10 py-3 px-5 py-1" style={{backgroundImage:`url(${backgrounds[board.img]})`,  backgroundSize: 'cover', backgroundPosition: 'center'}}><Board board={board} /></div>
+            }
         </div>
     )
 }

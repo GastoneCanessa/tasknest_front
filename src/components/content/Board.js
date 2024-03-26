@@ -104,7 +104,7 @@ export default function Board(props) {
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            <h1>{board.title}</h1>
+            <h1 className="text-light">{board.title}</h1>
             <Droppable droppableId={board.title} direction="horizontal" type="column">
                 {(provided) => (
                     <div
@@ -140,6 +140,15 @@ export default function Board(props) {
                                 )}
                             </Draggable>
                         ))}
+                        <div className="col p-3">
+                            <div className="card p-3" style={{  backgroundColor: 'rgba(255, 255, 255, 0.3)' }}>
+                                <div className="d-flex">
+                                    <h4>+&nbsp;</h4><p> Aggiungi un altra lista</p>
+                                </div>
+
+                            </div>
+                        </div>
+
                         {provided.placeholder}
                     </div>
                 )}
