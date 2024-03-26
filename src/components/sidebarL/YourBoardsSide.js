@@ -10,8 +10,10 @@ export default function YourBoardsSide(props) {
     return (
         <div className="">
             <div className='row'>
-                <div className="col-10 btn btn-danger" onClick={() => window.location.reload()}><h5>Le tue bacheche</h5></div>
-                <div className="col-2 btn btn-warning" onClick={() => setShowNewBoardForm(true)}><h1>+</h1></div>
+                <div className='d-flex '>
+                    <div className="col-10 rounded-start d-flex justify-content-center align-items-center"  style={{background:"#8ecdf6"}} onClick={() => window.location.reload()}><h4>Le tue bacheche</h4></div>
+                    <div className="col-2 rounded-end d-flex justify-content-center align-items-center" style={{background:"#ffb6c1"}} onClick={() => setShowNewBoardForm(true)}><h1>+</h1></div>
+                </div>
             </div>
             <div className='mt-2'>
                 {props.boards.map((board, index) => (

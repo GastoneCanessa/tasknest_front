@@ -11,6 +11,9 @@ const backgrounds = {
   10: '/backgrounds/grass-84622_1280.jpg',
   11: '/backgrounds/leaves-1498985_1280.jpg',
   12: '/backgrounds/wall-1217083_1280.jpg',
-  13: '/backgrounds/water-1330252_1280.jpg'
+  13: '/backgrounds/water-1330252_1280.jpg',
+  14: '/backgrounds/hexagon-8588837_1280.jpg',
+  15: '/backgrounds/simba-8618301_1280.jpg',
+  16: '/backgrounds/leaf-8323899_1280.jpg'
 };
 export default backgrounds;
