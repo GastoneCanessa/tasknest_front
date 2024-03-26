@@ -1,11 +1,22 @@
 import axios from "axios";
+import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { currentUser } from '../../App';
 
 export default function CardTask() {
 
     const { id } = useParams();
     const [task, setTask] = useState({});
+
+    const [user, setUser] = useAtom(currentUser);
+    const [newComment, setNewComment] = useState(
+        {
+            author_id: user.id,
+            body: "",
+            task_id: id
+        }
+    );
 
     useEffect(() => {
         axios.get("/tasks/" + id)
@@ -20,6 +31,35 @@ export default function CardTask() {
 
             });
     }, [id]);
+
+    function handleInputChange(event) {
+
+        let clone = { ...newComment };
+        clone['body'] = event.target.value;
+
+        setNewComment(clone);
+    };
+
+    function addComment(event) {
+        event.preventDefault(); // Impedisce il comportamento predefinito del modulo
+        axios.post("/comments", newComment)
+            .then(response => {
+
+                setTask(prevTask => ({
+                    ...prevTask,
+                    comments: [...prevTask.comments, response.data]
+                }));
+
+                setNewComment({
+                    author_id: user.id,
+                    body: "",
+                    task_id: id
+                });
+            })
+            .catch(error => {
+                console.error(error.response.data);
+            });
+    }
 
     return (
         <>
@@ -41,10 +81,14 @@ export default function CardTask() {
                                 <>
                                     <h5>- {comment.author_name}</h5>
                                     <p> {comment.body}</p>
-                                    <p style={{ color: "red" }}>pulsante per modificare il commento solo se appartiene all'utente (da fare)</p>
+
                                 </>
                             ))}
-                            <p style={{ color: "red" }}>pulsante per aggiungere commenti (da fare)</p>
+                            <form onSubmit={addComment}>
+                                <input type="text" name="body" value={newComment.body} onChange={handleInputChange} placeholder="New comment" />
+                                <button type="submit">Add</button>
+                            </form>
+
                         </div>
 
                         <p>Assigned to:</p>
