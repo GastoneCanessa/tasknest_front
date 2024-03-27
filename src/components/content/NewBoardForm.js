@@ -27,7 +27,6 @@ const NewBoardForm = ({ onClose, onBoardAdded }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(board);
     try {
       await axios.post('/boards', board);
       onBoardAdded(); // Chiama questa funzione per aggiornare l'elenco delle bacheche

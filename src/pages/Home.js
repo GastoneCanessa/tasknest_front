@@ -30,7 +30,7 @@ export default function Home() {
     };
 
     const handleNewBoardAdded = () => {
-        fetchBoards(); // Riaggiorna le bacheche dopo averne aggiunta una nuova
+        fetchBoards();
     };
 
     return (

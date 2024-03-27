@@ -2,11 +2,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import SingleTask from "./SingleTask";
+import NewListForm from "./NewListForm";
 
 
 
 export default function Board(props) {
     const [board, setBoard] = useState({ my_tasklists: [], title: "azz" });
+    const [fliker, setFliker] = useState(true);
 
     const loadBoard = () => {
         axios.get(`/boards/${props.board.id}`)
@@ -100,8 +102,6 @@ export default function Board(props) {
         }
     };
 
-
-
     return (
         <DragDropContext onDragEnd={onDragEnd}>
             <h1 className="text-light">{board.title}</h1>
@@ -140,14 +140,23 @@ export default function Board(props) {
                                 )}
                             </Draggable>
                         ))}
-                        <div className="col p-3">
-                            <div className="card p-3" style={{  backgroundColor: 'rgba(255, 255, 255, 0.3)' }}>
-                                <div className="d-flex">
-                                    <h4>+&nbsp;</h4><p> Aggiungi un altra lista</p>
+                        {
+                            fliker ?
+                                <div className="col p-3" onClick={() => { setFliker(!fliker) }}>
+                                    <div className="card p-3" style={{ backgroundColor: 'rgba(255, 255, 255, 0.3)' }}>
+                                        <div className="d-flex">
+                                            <h4>+&nbsp;</h4><p> Aggiungi un altra lista</p>
+                                        </div>
+                                    </div>
+                                </div> :
+                                <div className="col p-3">
+                                    <div className="card p-3" >
+                                        <div className="d-flex">
+                                            <NewListForm boardId={props.board.id} loadBoard={loadBoard} onClose={() => setFliker(true)} />
+                                        </div>
+                                    </div>
                                 </div>
-
-                            </div>
-                        </div>
+                        }
 
                         {provided.placeholder}
                     </div>
