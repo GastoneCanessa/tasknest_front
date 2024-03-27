@@ -4,10 +4,18 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { currentUser } from '../../App';
 
+
 export default function CardTask() {
 
     const { id } = useParams();
     const [task, setTask] = useState({});
+    const [showTextBox, setShowTextBox] = useState(false);
+    const [newTask, setNewTask] = useState(
+        {
+            id: id,
+            description: task.description
+        }
+    )
 
     const [user, setUser] = useAtom(currentUser);
     const [newComment, setNewComment] = useState(
@@ -36,9 +44,15 @@ export default function CardTask() {
 
         let clone = { ...newComment };
         clone['body'] = event.target.value;
-
         setNewComment(clone);
     };
+
+    function handleDescriptionChange(event) {
+
+        let clone = { ...newTask };
+        clone['description'] = event.target.value;
+        setNewTask(clone);
+    }
 
     function addComment(event) {
         event.preventDefault(); // Impedisce il comportamento predefinito del modulo
@@ -61,46 +75,125 @@ export default function CardTask() {
             });
     }
 
+    function addDescription(event) {
+        event.preventDefault();
+        axios.put("/tasks/description", newTask)
+            .then(response => {
+
+                const updatedTask = {
+                    ...task,
+                    description: response.data.description
+                };
+
+                setTask(updatedTask);
+
+                setNewTask({
+                    id: id,
+                    description: updatedTask.description
+                });
+            })
+            .catch(error => {
+                console.error(error.response.data);
+            });
+        toggleTextBox();
+    }
+
+    function toggleTextBox() {
+
+        setShowTextBox(!showTextBox);
+    }
+
+
+    function textBox() {
+        return (
+            <form onSubmit={addDescription}>
+                <input type="text" name="description" onChange={handleDescriptionChange} placeholder={task.description} style={{ backgroundColor: "#2C3240", color: "#DCDCDC", width: "100%" }} className="card p-2 mb-2" />
+                <button type="submit" className="btn me-2" style={{ background: "#8492B4" }} >Send</button>
+                <button className="btn text-decoration-underline " onClick={toggleTextBox}>Back</button>
+            </form>
+        );
+    }
+
+    function deleteComment(id) {
+
+        axios.delete("/comments/" + id)
+            .then(response => {
+                setTask(prevTask => ({
+                    ...prevTask,
+                    comments: prevTask.comments.filter(comment => comment.id !== id)
+                }));
+            }
+            ).catch(error => {
+                console.error(error.response.data);
+            });
+    }
+
     return (
         <>
             <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "90vh" }}>
-                <div className="container form-container px-5 py-3 my-5 col-5 row" style={{ backgroundColor: "#4D5771", borderRadius: "20px" }}>
+                <div className="container form-container px-4 py-3 my-5 col-6 row" style={{ backgroundColor: "#4D5771", borderRadius: "20px" }}>
                     <div className="col">
-                        <h3 className="fw-semibold" style={{ color: "white" }}>{task.title}  </h3>
-                        <p style={{ color: "red" }}>pulsante per modificare status (da fare)</p>
-                        <h5 className="mb-5" style={{ color: "white" }}> Status: {task.state}</h5>
-                        <p>Description:</p>
-                        <div className="card px-3 py-1 mb-4" style={{ backgroundColor: "burlywood" }}>
-                            <p > {task.description}</p>
-                            <p style={{ color: "red" }}>pulsante modificare (da fare)</p>
+                        <h3 className="fw-semibold" style={{ color: "#DCDCDC" }}>{task.title}  </h3>
+
+                        <div className="d-flex mb-4">
+                            <h5 className="fw-light me-3" style={{ color: "#DCDCDC" }}> Status: </h5>
+                            <h5 className="fw-semibold" style={{ color: "#DCDCDC" }}>{task.state}</h5>
                         </div>
 
-                        <p>Comments:</p>
-                        <div className="card px-3 py-1 mb-4" style={{ backgroundColor: "burlywood" }}>
-                            {task.comments && task.comments.map((comment) => (
+                        <h5 style={{ color: "#DCDCDC" }} className="fw-semibold">Description:</h5>
+
+                        {showTextBox ? textBox() :
+                            <>
+                                <div className="card px-3 py-1 " style={{ backgroundColor: "#2C3240" }}>
+                                    <p style={{ color: "#DCDCDC" }}> {task.description}</p>
+                                </div>
+                                <button className="btn text-decoration-underline mb-4 p-0" onClick={toggleTextBox} >Modify</button>
+                            </>
+                        }
+
+
+
+                        <h5 style={{ color: "#DCDCDC" }} className="fw-semibold" p>Assigned to:</h5>
+                        <div className="mb-4">
+                            {task.assigned_to && task.assigned_to.map((username) => (
                                 <>
-                                    <h5>- {comment.author_name}</h5>
-                                    <p> {comment.body}</p>
+                                    <h5>- {username}</h5>
 
                                 </>
                             ))}
+
+                        </div>
+
+                        <h5 style={{ color: "#DCDCDC" }} className="fw-semibold">Comments:</h5>
+                        <div className=" px-3 py-1 mb-4">
+                            {task.comments && task.comments.map((comment) => (
+                                <div className="mb-2">
+                                    <div className="d-flex justify-content-between">
+
+                                        <h5 className="fw-semibold ">{comment.author_name} </h5>
+                                        <p style={{ marginBottom: 0 }}>at {comment.made_at}</p>
+                                    </div>
+                                    <div className="card  p-2" style={{ backgroundColor: "#2C3240", color: "#DCDCDC" }}>
+                                        <p> {comment.body}</p>
+                                    </div>
+                                    {comment.author_id == user.id &&
+                                        <>
+                                            <button className="btn text-decoration-underline mb-2 p-0 me-3" onClick={() => deleteComment(comment.id)}>Delete</button>
+                                            <button className="btn text-decoration-underline mb-2 p-0">Modify</button>
+                                        </>
+                                    }
+
+                                </div>
+                            ))}
                             <form onSubmit={addComment}>
-                                <input type="text" name="body" value={newComment.body} onChange={handleInputChange} placeholder="New comment" />
-                                <button type="submit">Add</button>
+                                <h5 className="fw-semibold ">{user.name} </h5>
+                                <input type="text" name="body" value={newComment.body} onChange={handleInputChange} placeholder="Write something..." style={{ backgroundColor: "#2C3240", color: "#DCDCDC", width: "100%" }} className="card p-2 mb-2" />
+                                <button type="submit" className="btn" style={{ background: "#8492B4" }} >Send</button>
                             </form>
 
                         </div>
 
-                        <p>Assigned to:</p>
-                        <div>
-                            {task.assigned_to && task.assigned_to.map((user) => (
-                                <>
-                                    <h2>- {user.name}</h2>
-                                    <p style={{ color: "red" }}>pulsante per rimuovere partecipante (da fare)</p>
-                                </>
-                            ))}
-                            <p style={{ color: "red" }}>pulsante aggiungere un partecipanten (da fare)(difficile)</p>
-                        </div>
+
                     </div>
                     <div className="col-auto">
                         <p style={{ color: "white" }}>Due to: {task.expired_date}</p>
