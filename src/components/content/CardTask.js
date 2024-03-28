@@ -8,16 +8,24 @@ import { currentUser } from '../../App';
 export default function CardTask() {
 
     const { id } = useParams();
+    const [user, setUser] = useAtom(currentUser);
     const [task, setTask] = useState({});
     const [showTextBox, setShowTextBox] = useState(false);
+    const [showCommentBox, setShowCommentBox] = useState(false);
+    const [commentIndex, setCommentIndex] = useState(-1);
     const [newTask, setNewTask] = useState(
         {
             id: id,
             description: task.description
         }
     )
-
-    const [user, setUser] = useAtom(currentUser);
+    const [modifiedComm, setModifiedComm] = useState(
+        {
+            author_id: user.id,
+            body: "",
+            id: ""
+        }
+    )
     const [newComment, setNewComment] = useState(
         {
             author_id: user.id,
@@ -54,6 +62,18 @@ export default function CardTask() {
         setNewTask(clone);
     }
 
+    function handleCommentChange(event, id) {
+        console.log("Nuovo valore dell'input:", event.target.value);
+        console.log("ID del commento:", id);
+
+        let clone = { ...modifiedComm };
+        clone['body'] = event.target.value;
+        clone['id'] = id;
+        console.log("Stato clonato:", clone);
+        setModifiedComm(clone);
+    }
+
+
     function addComment(event) {
         event.preventDefault(); // Impedisce il comportamento predefinito del modulo
         axios.post("/comments", newComment)
@@ -73,6 +93,31 @@ export default function CardTask() {
             .catch(error => {
                 console.error(error.response.data);
             });
+    }
+
+    function sendComment(event) {
+
+        event.preventDefault();
+        axios.put("/comments", modifiedComm)
+            .then(response => {
+
+                setTask(prevTask => ({
+                    ...prevTask,
+                    comments: [...prevTask.comments, response.data]
+                }));
+
+                setModifiedComm({
+                    author_id: user.id,
+                    body: "",
+                    id: ""
+                });
+
+                setCommentIndex(-1);
+            })
+            .catch(error => {
+                console.error(error.response.data);
+            });
+        toggleCommentBox();
     }
 
     function addDescription(event) {
@@ -103,14 +148,57 @@ export default function CardTask() {
         setShowTextBox(!showTextBox);
     }
 
+    function toggleCommentBox() {
+
+        setShowCommentBox(!showCommentBox);
+    }
+
+    function setIndex(ind) {
+        setCommentIndex(ind);
+    }
+
 
     function textBox() {
         return (
             <form onSubmit={addDescription}>
-                <input type="text" name="description" onChange={handleDescriptionChange} placeholder={task.description} style={{ backgroundColor: "#2C3240", color: "#DCDCDC", width: "100%" }} className="card p-2 mb-2" />
+                <input
+                    type="text"
+                    name="description"
+                    onChange={handleDescriptionChange}
+                    placeholder={task.description}
+                    style={{ backgroundColor: "#2C3240", color: "#DCDCDC", width: "100%" }}
+                    className="card p-2 mb-2"
+                />
                 <button type="submit" className="btn me-2" style={{ background: "#8492B4" }} >Send</button>
                 <button className="btn text-decoration-underline " onClick={toggleTextBox}>Back</button>
             </form>
+        );
+    }
+
+    function commentForm(comment) {
+        return (
+            <>
+                <div className="mb-2">
+                    <div className="d-flex justify-content-between">
+
+                        <h5 className="fw-semibold ">{comment.author_name} </h5>
+                        <p style={{ marginBottom: 0 }}>at {comment.made_at}</p>
+                    </div>
+                </div>
+                <form onSubmit={sendComment}>
+                    <input
+                        type="text"
+                        name="description"
+                        onChange={(event) => handleCommentChange(event, comment.id)}
+                        placeholder=""
+                        style={{ backgroundColor: "#2C3240", color: "#DCDCDC", width: "100%" }}
+                        className="card p-2 mb-2"
+                    />
+
+                    <button type="submit" className="btn me-2" style={{ background: "#8492B4" }} >Send</button>
+                    <button className="btn text-decoration-underline " onClick={() => { toggleCommentBox(); setCommentIndex(-1); }}>Back</button>
+                </form>
+            </>
         );
     }
 
@@ -166,32 +254,41 @@ export default function CardTask() {
 
                         <h5 style={{ color: "#DCDCDC" }} className="fw-semibold">Comments:</h5>
                         <div className=" px-3 py-1 mb-4">
-                            {task.comments && task.comments.map((comment) => (
-                                <div className="mb-2">
-                                    <div className="d-flex justify-content-between">
+                            {task.comments && task.comments.map((comment) => comment.id == commentIndex ?
+                                <>
 
-                                        <h5 className="fw-semibold ">{comment.author_name} </h5>
-                                        <p style={{ marginBottom: 0 }}>at {comment.made_at}</p>
-                                    </div>
-                                    <div className="card  p-2" style={{ backgroundColor: "#2C3240", color: "#DCDCDC" }}>
-                                        <p> {comment.body}</p>
-                                    </div>
-                                    {comment.author_id == user.id &&
-                                        <>
-                                            <button className="btn text-decoration-underline mb-2 p-0 me-3" onClick={() => deleteComment(comment.id)}>Delete</button>
-                                            <button className="btn text-decoration-underline mb-2 p-0">Modify</button>
-                                        </>
-                                    }
+                                    {commentForm(comment)}
+                                </>
+                                :
+                                <>
+                                    <div className="mb-2">
+                                        <div className="d-flex justify-content-between">
 
-                                </div>
-                            ))}
+                                            <h5 className="fw-semibold ">{comment.author_name} </h5>
+                                            <p style={{ marginBottom: 0 }}>at {comment.made_at}</p>
+                                        </div>
+                                        <div className="card  p-2" style={{ backgroundColor: "#2C3240", color: "#DCDCDC" }}>
+                                            <p> {comment.body}</p>
+                                        </div>
+                                        {comment.author_id == user.id &&
+                                            <>
+                                                <button className="btn text-decoration-underline mb-2 p-0 me-3" onClick={() => deleteComment(comment.id)}>Delete</button>
+                                                <button className="btn text-decoration-underline mb-2 p-0" onClick={() => { toggleCommentBox(); setIndex(comment.id); }}>Modify</button>
+                                            </>
+                                        }
+                                    </div >
+                                </>
+                            )}
+
+
+
                             <form onSubmit={addComment}>
                                 <h5 className="fw-semibold ">{user.name} </h5>
                                 <input type="text" name="body" value={newComment.body} onChange={handleInputChange} placeholder="Write something..." style={{ backgroundColor: "#2C3240", color: "#DCDCDC", width: "100%" }} className="card p-2 mb-2" />
                                 <button type="submit" className="btn" style={{ background: "#8492B4" }} >Send</button>
                             </form>
 
-                        </div>
+                        </div >
 
 
                     </div>
@@ -199,7 +296,7 @@ export default function CardTask() {
                         <p style={{ color: "white" }}>Due to: {task.expired_date}</p>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     );
 }
