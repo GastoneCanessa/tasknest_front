@@ -23,7 +23,9 @@ export default function CardTask() {
         {
             author_id: user.id,
             body: "",
-            id: ""
+            id: "",
+            author_name: user.name,
+            made_at: ""
         }
     )
     const [newComment, setNewComment] = useState(
@@ -34,7 +36,8 @@ export default function CardTask() {
         }
     );
 
-    useEffect(() => {
+    function getTasks()
+    {
         axios.get("/tasks/" + id)
             .then((resp) => {
                 setTask(resp.data);
@@ -46,6 +49,10 @@ export default function CardTask() {
                 }
 
             });
+    }
+
+    useEffect(() => {
+        getTasks();
     }, [id]);
 
     function handleInputChange(event) {
@@ -109,10 +116,14 @@ export default function CardTask() {
                 setModifiedComm({
                     author_id: user.id,
                     body: "",
-                    id: ""
+                    id: "",
+                    author_name:user.name,
+                    made_at:""
+
                 });
 
                 setCommentIndex(-1);
+                getTasks();
             })
             .catch(error => {
                 console.error(error.response.data);
@@ -190,7 +201,8 @@ export default function CardTask() {
                         type="text"
                         name="description"
                         onChange={(event) => handleCommentChange(event, comment.id)}
-                        placeholder=""
+                        // placeholder={modifiedComm.body}
+                        value={modifiedComm.body}
                         style={{ backgroundColor: "#2C3240", color: "#DCDCDC", width: "100%" }}
                         className="card p-2 mb-2"
                     />
@@ -273,7 +285,7 @@ export default function CardTask() {
                                         {comment.author_id == user.id &&
                                             <>
                                                 <button className="btn text-decoration-underline mb-2 p-0 me-3" onClick={() => deleteComment(comment.id)}>Delete</button>
-                                                <button className="btn text-decoration-underline mb-2 p-0" onClick={() => { toggleCommentBox(); setIndex(comment.id); }}>Modify</button>
+                                                <button className="btn text-decoration-underline mb-2 p-0" onClick={() => { toggleCommentBox(); setIndex(comment.id); setModifiedComm({...comment});}}>Modify</button>
                                             </>
                                         }
                                     </div >
