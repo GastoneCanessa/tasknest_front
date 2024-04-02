@@ -18,7 +18,7 @@ export default function CardTask() {
             id: id,
             description: task.description
         }
-    )
+    );
     const [modifiedComm, setModifiedComm] = useState(
         {
             author_id: user.id,
@@ -27,7 +27,7 @@ export default function CardTask() {
             author_name: user.name,
             made_at: ""
         }
-    )
+    );
     const [newComment, setNewComment] = useState(
         {
             author_id: user.id,
@@ -35,9 +35,14 @@ export default function CardTask() {
             task_id: id
         }
     );
+    const [userToRemove, setUserToRemove] = useState(
+        {
+            id: "",
+            user_id: ""
+        }
+    );
 
-    function getTasks()
-    {
+    function getTasks() {
         axios.get("/tasks/" + id)
             .then((resp) => {
                 setTask(resp.data);
@@ -67,6 +72,15 @@ export default function CardTask() {
         let clone = { ...newTask };
         clone['description'] = event.target.value;
         setNewTask(clone);
+    }
+
+    function handleRemoveUser(id) {
+
+        let clone = { ...userToRemove };
+        clone['id'] = task.id;
+        clone['user_id'] = id;
+        setUserToRemove(clone);
+        removeUser(clone);
     }
 
     function handleCommentChange(event, id) {
@@ -117,8 +131,8 @@ export default function CardTask() {
                     author_id: user.id,
                     body: "",
                     id: "",
-                    author_name:user.name,
-                    made_at:""
+                    author_name: user.name,
+                    made_at: ""
 
                 });
 
@@ -228,6 +242,29 @@ export default function CardTask() {
             });
     }
 
+    function removeUser(userToRem) {
+
+        console.log(userToRem);
+        axios.put("/tasks/removeuser", userToRem)
+            .then(response => {
+                setTask(prevTask => ({
+                    ...prevTask,
+                    assigned_to: [...prevTask.assigned_to, response.data]
+                }));
+                setUserToRemove(
+                    {
+                        id: "",
+                        user_id: ""
+                    }
+                );
+                getTasks();
+            }
+            ).catch(error => {
+                console.error(error.response.data);
+            });
+    }
+
+
     return (
         <>
             <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "90vh" }}>
@@ -255,11 +292,11 @@ export default function CardTask() {
 
                         <h5 style={{ color: "#DCDCDC" }} className="fw-semibold" p>Assigned to:</h5>
                         <div className="mb-4">
-                            {task.assigned_to && task.assigned_to.map((username) => (
-                                <>
-                                    <h5>- {username}</h5>
-
-                                </>
+                            {task.assigned_to && task.assigned_to.map((u) => (
+                                <div className="d-flex">
+                                    <h5>- {u.name}</h5>
+                                    <button className="btn text-decoration-underline mb-4 ms-3 p-0" onClick={() => handleRemoveUser(u.id)} >Remove</button>
+                                </div>
                             ))}
 
                         </div>
@@ -285,7 +322,7 @@ export default function CardTask() {
                                         {comment.author_id == user.id &&
                                             <>
                                                 <button className="btn text-decoration-underline mb-2 p-0 me-3" onClick={() => deleteComment(comment.id)}>Delete</button>
-                                                <button className="btn text-decoration-underline mb-2 p-0" onClick={() => { toggleCommentBox(); setIndex(comment.id); setModifiedComm({...comment});}}>Modify</button>
+                                                <button className="btn text-decoration-underline mb-2 p-0" onClick={() => { toggleCommentBox(); setIndex(comment.id); setModifiedComm({ ...comment }); }}>Modify</button>
                                             </>
                                         }
                                     </div >
