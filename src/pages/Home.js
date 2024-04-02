@@ -40,7 +40,7 @@ export default function Home() {
             {isBoardEmpty() ? 
             <div className="col-10 py-3 px-5 py-1" ><YourBoards setBoard={setBoard} boards={boards} /> </div>
             : 
-            <div className="col-10 py-3 px-5 py-1" style={{backgroundImage:`url(${backgrounds[board.img]})`,  backgroundSize: 'cover', backgroundPosition: 'center'}}><Board board={board} /></div>
+            <div className="col-10 py-3 px-0 py-1" style={{backgroundImage:`url(${backgrounds[board.img]})`,  backgroundSize: 'cover', backgroundPosition: 'center'}}><Board board={board} /></div>
             }
         </div>
     )
