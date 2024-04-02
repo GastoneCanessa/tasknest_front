@@ -1,0 +1,36 @@
+@import url(https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap);
+
+.button-light {
+    background-color: #75E2FF;
+    border: none;
+    padding: 6px 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-family: "Comfortaa", sans-serif;
+    color: #1b3c4c;
+    transition-duration: 0.4s;
+
+}
+
+.button-light:hover {
+    background-color: #40d3fb;
+    color: #0f2029;
+}
+
+.title {
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 650;
+    font-size: 2vw;
+    color: #EAEBED;
+    margin: 2;
+}
+
+.title-secondary {
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 350;
+    font-size: 1vw;
+    color: #EAEBED;
+    margin: 0;
+}

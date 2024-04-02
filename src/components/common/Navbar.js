@@ -16,7 +16,7 @@ const Navbar = () => {
 
 
     return (
-        <div className="" style={{ background: "#debdd2" }}>
+        <div className="" style={{ background: "#5689C0" }}>
             <nav className="navbar navbar-expand-lg navbar-light ">
                 <div className="container-fluid">
                     {/* <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,10 +54,7 @@ const Navbar = () => {
                             </li> */}
                         </ul>
 
-                        <form className="d-flex">
-                            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                            <button className="btn btn-outline-success" type="submit">Search</button>
-                        </form>
+
 
                         {!isUserNotEmpty ? (
                             <Link className="nav-link  fst-italic fw-semibold fs-5 login-link" to="user/login">Login</Link>

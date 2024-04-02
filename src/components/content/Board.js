@@ -4,7 +4,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import SingleTask from "./SingleTask";
 import NewListForm from "./NewListForm";
 import NewTaskForm from "./NewTaskForm";
-
+import '../content/content.css';
 
 
 export default function Board(props) {
@@ -110,7 +110,7 @@ export default function Board(props) {
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            <h1 className="text-light mx-4">{board.title}</h1>
+            <h1 className="title mx-4">{board.title}</h1>
             <Droppable droppableId={board.title} direction="horizontal" type="column">
                 {(provided) => (
                     <div
@@ -128,9 +128,9 @@ export default function Board(props) {
                                         {...provided.dragHandleProps}
                                         className=" p-3"
                                     >
-                                        <div className="card p-3" style={{ width: "15vw" }}>
-                                            <p>{list.title}</p>
-                                            <p>{list.position}</p>
+                                        <div className="card p-3" style={{ width: "15vw", backgroundColor: "#4D5771" }}>
+                                            <p className="title-secondary">{list.title}</p>
+                                            {/* <p>{list.position}</p> */}
                                             {/* Droppable per le task */}
                                             <Droppable droppableId={`droppable-tasklist-${list.title}`} type="task">
                                                 {(provided) => (
@@ -147,7 +147,7 @@ export default function Board(props) {
                                                     <div className="p-3">
                                                         <div className="card p-3" >
                                                             <div className="d-flex">
-                                                                <NewTaskForm tasklist_id={list.id}  loadBoard={loadBoard} onClose={() => setActiveListForNewTask(null)}/>
+                                                                <NewTaskForm tasklist_id={list.id} loadBoard={loadBoard} onClose={() => setActiveListForNewTask(null)} />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -155,7 +155,7 @@ export default function Board(props) {
                                                     <div className="" onClick={() => { handleToggleNewTaskForm(list.id) }}>
                                                         <div className="card px-4 pt-2" style={{ backgroundColor: 'rgba(255, 255, 255, 0.3)' }}>
                                                             <div className="d-flex">
-                                                                <h4>+&nbsp;</h4><p> Aggiungi un altra task</p>
+                                                                <h4>+&nbsp;</h4><p> Add Task</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -168,7 +168,7 @@ export default function Board(props) {
                         ))}
                         {
                             fliker ?
-                                <div className="p-3" onClick={() => { setFliker(!fliker)  }}>
+                                <div className="p-3" onClick={() => { setFliker(!fliker) }}>
                                     <div className="card p-3" style={{ backgroundColor: 'rgba(255, 255, 255, 0.3)' }}>
                                         <div className="d-flex">
                                             <h4>+&nbsp;</h4><p> Aggiungi un altra lista</p>

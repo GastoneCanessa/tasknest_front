@@ -3,6 +3,7 @@ import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { currentUser } from '../../App';
+import '../content/content.css';
 
 
 export default function CardTask() {
@@ -41,6 +42,12 @@ export default function CardTask() {
             user_id: ""
         }
     );
+    const [userToAdd, setUserToAdd] = useState(
+        {
+            id: "",
+            email: ""
+        }
+    )
 
     function getTasks() {
         axios.get("/tasks/" + id)
@@ -67,12 +74,20 @@ export default function CardTask() {
         setNewComment(clone);
     };
 
+    function handleAddUser(event) {
+
+        let clone = { ...userToAdd };
+        clone['id'] = task.id;
+        clone['email'] = event.target.value;
+        setUserToAdd(clone);
+    };
+
     function handleDescriptionChange(event) {
 
         let clone = { ...newTask };
         clone['description'] = event.target.value;
         setNewTask(clone);
-    }
+    };
 
     function handleRemoveUser(id) {
 
@@ -81,7 +96,8 @@ export default function CardTask() {
         clone['user_id'] = id;
         setUserToRemove(clone);
         removeUser(clone);
-    }
+    };
+
 
     function handleCommentChange(event, id) {
         console.log("Nuovo valore dell'input:", event.target.value);
@@ -221,7 +237,7 @@ export default function CardTask() {
                         className="card p-2 mb-2"
                     />
 
-                    <button type="submit" className="btn me-2" style={{ background: "#8492B4" }} >Send</button>
+                    <button type="submit" className="button-light me-2" >Send</button>
                     <button className="btn text-decoration-underline " onClick={() => { toggleCommentBox(); setCommentIndex(-1); }}>Back</button>
                 </form>
             </>
@@ -244,7 +260,6 @@ export default function CardTask() {
 
     function removeUser(userToRem) {
 
-        console.log(userToRem);
         axios.put("/tasks/removeuser", userToRem)
             .then(response => {
                 setTask(prevTask => ({
@@ -264,25 +279,47 @@ export default function CardTask() {
             });
     }
 
+    function addUser(event) {
+
+        event.preventDefault();
+        axios.put("/tasks/adduser", userToAdd)
+            .then(response => {
+                setTask(prevTask => ({
+                    ...prevTask,
+                    assigned_to: [...prevTask.assigned_to, response.data]
+                }));
+                setUserToAdd(
+                    {
+                        id: "",
+                        email: ""
+                    }
+                );
+                getTasks();
+            }
+            ).catch(error => {
+                console.error(error.response.data);
+            });
+    }
+
 
     return (
         <>
             <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "90vh" }}>
                 <div className="container form-container px-4 py-3 my-5 col-6 row" style={{ backgroundColor: "#4D5771", borderRadius: "20px" }}>
                     <div className="col">
-                        <h3 className="fw-semibold" style={{ color: "#DCDCDC" }}>{task.title}  </h3>
+                        <h3 className="title" >{task.title}  </h3>
 
                         <div className="d-flex mb-4">
-                            <h5 className="fw-light me-3" style={{ color: "#DCDCDC" }}> Status: </h5>
-                            <h5 className="fw-semibold" style={{ color: "#DCDCDC" }}>{task.state}</h5>
+                            <h5 className="fw-light me-3" style={{ color: "#EAEBED" }}> Status: </h5>
+                            <h5 className="fw-semibold" style={{ color: "#EAEBED" }}>{task.state}</h5>
                         </div>
 
-                        <h5 style={{ color: "#DCDCDC" }} className="fw-semibold">Description:</h5>
+                        <h5 style={{ color: "#EAEBED" }} className="fw-semibold">Description:</h5>
 
                         {showTextBox ? textBox() :
                             <>
                                 <div className="card px-3 py-1 " style={{ backgroundColor: "#2C3240" }}>
-                                    <p style={{ color: "#DCDCDC" }}> {task.description}</p>
+                                    <p style={{ color: "#EAEBED" }}> {task.description}</p>
                                 </div>
                                 <button className="btn text-decoration-underline mb-4 p-0" onClick={toggleTextBox} >Modify</button>
                             </>
@@ -290,7 +327,7 @@ export default function CardTask() {
 
 
 
-                        <h5 style={{ color: "#DCDCDC" }} className="fw-semibold" p>Assigned to:</h5>
+                        <h5 style={{ color: "#EAEBED" }} className="fw-semibold" p>Assigned to:</h5>
                         <div className="mb-4">
                             {task.assigned_to && task.assigned_to.map((u) => (
                                 <div className="d-flex">
@@ -298,10 +335,14 @@ export default function CardTask() {
                                     <button className="btn text-decoration-underline mb-4 ms-3 p-0" onClick={() => handleRemoveUser(u.id)} >Remove</button>
                                 </div>
                             ))}
-
+                            <form onSubmit={addUser}>
+                                <h5 className="fw-semibold ">Add participant </h5>
+                                <input type="text" name="email" onChange={handleAddUser} placeholder="Insert email" style={{ backgroundColor: "#2C3240", color: "#DCDCDC", width: "100%" }} className="card p-2 mb-2" />
+                                <button type="submit" className="button-light " >Add</button>
+                            </form>
                         </div>
 
-                        <h5 style={{ color: "#DCDCDC" }} className="fw-semibold">Comments:</h5>
+                        <h5 style={{ color: "#EAEBED" }} className="fw-semibold">Comments:</h5>
                         <div className=" px-3 py-1 mb-4">
                             {task.comments && task.comments.map((comment) => comment.id == commentIndex ?
                                 <>
@@ -316,7 +357,7 @@ export default function CardTask() {
                                             <h5 className="fw-semibold ">{comment.author_name} </h5>
                                             <p style={{ marginBottom: 0 }}>at {comment.made_at}</p>
                                         </div>
-                                        <div className="card  p-2" style={{ backgroundColor: "#2C3240", color: "#DCDCDC" }}>
+                                        <div className="card  p-2" style={{ backgroundColor: "#2C3240", color: "#EAEBED" }}>
                                             <p> {comment.body}</p>
                                         </div>
                                         {comment.author_id == user.id &&
@@ -334,7 +375,7 @@ export default function CardTask() {
                             <form onSubmit={addComment}>
                                 <h5 className="fw-semibold ">{user.name} </h5>
                                 <input type="text" name="body" value={newComment.body} onChange={handleInputChange} placeholder="Write something..." style={{ backgroundColor: "#2C3240", color: "#DCDCDC", width: "100%" }} className="card p-2 mb-2" />
-                                <button type="submit" className="btn" style={{ background: "#8492B4" }} >Send</button>
+                                <button type="submit" className="button-light">Send</button>
                             </form>
 
                         </div >
