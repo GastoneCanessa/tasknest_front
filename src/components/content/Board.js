@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import SingleTask from "./SingleTask";
 import NewListForm from "./NewListForm";
+import NewTaskForm from "./NewTaskForm";
 
 
 
 export default function Board(props) {
     const [board, setBoard] = useState({ my_tasklists: [], title: "azz" });
     const [fliker, setFliker] = useState(true);
+    const [activeListForNewTask, setActiveListForNewTask] = useState(null);
 
     const loadBoard = () => {
         axios.get(`/boards/${props.board.id}`)
@@ -23,6 +25,10 @@ export default function Board(props) {
     useEffect(() => {
         loadBoard(); // Chiamata iniziale per caricare la board
     }, [props.board.id]); // Dipendenze useEffect
+
+    const handleToggleNewTaskForm = (listId) => {
+        setActiveListForNewTask(activeListForNewTask === listId ? null : listId);
+    };
 
     const onDragEnd = (result) => {
         const { destination, source, type, draggableId } = result;
@@ -111,7 +117,7 @@ export default function Board(props) {
                         {...provided.droppableProps}
                         ref={provided.innerRef}
                         className="d-flex"
-                        style={{overflowX: 'auto', whiteSpace: 'nowrap', height:"83vh"}}
+                        style={{ overflowX: 'auto', whiteSpace: 'nowrap', height: "83vh" }}
                     >
                         {board.my_tasklists.map((list, index) => (
                             <Draggable key={list.id} draggableId={String(list.title)} index={index}>
@@ -122,7 +128,7 @@ export default function Board(props) {
                                         {...provided.dragHandleProps}
                                         className=" p-3"
                                     >
-                                        <div className="card p-3" style={{width:"15vw"}}>
+                                        <div className="card p-3" style={{ width: "15vw" }}>
                                             <p>{list.title}</p>
                                             <p>{list.position}</p>
                                             {/* Droppable per le task */}
@@ -136,6 +142,25 @@ export default function Board(props) {
                                                     </div>
                                                 )}
                                             </Droppable>
+                                            {
+                                                activeListForNewTask === list.id ?
+                                                    <div className="p-3">
+                                                        <div className="card p-3" >
+                                                            <div className="d-flex">
+                                                                <NewTaskForm tasklist_id={list.id}  loadBoard={loadBoard} onClose={() => setActiveListForNewTask(null)}/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    :
+                                                    <div className="" onClick={() => { handleToggleNewTaskForm(list.id) }}>
+                                                        <div className="card px-4 pt-2" style={{ backgroundColor: 'rgba(255, 255, 255, 0.3)' }}>
+                                                            <div className="d-flex">
+                                                                <h4>+&nbsp;</h4><p> Aggiungi un altra task</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                            }
                                         </div>
                                     </div>
                                 )}
@@ -143,7 +168,7 @@ export default function Board(props) {
                         ))}
                         {
                             fliker ?
-                                <div className="p-3" onClick={() => { setFliker(!fliker) }}>
+                                <div className="p-3" onClick={() => { setFliker(!fliker)  }}>
                                     <div className="card p-3" style={{ backgroundColor: 'rgba(255, 255, 255, 0.3)' }}>
                                         <div className="d-flex">
                                             <h4>+&nbsp;</h4><p> Aggiungi un altra lista</p>
