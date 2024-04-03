@@ -108,6 +108,17 @@ export default function Board(props) {
         }
     };
 
+    function deleteList(idList) {
+        axios.delete(`/list/${idList}`)
+            .then(() => {
+                loadBoard();
+            })
+            .catch((error) => {
+                console.error('Errore nell\'cancellazione della task:', error);
+                // Gestisci l'errore, potenzialmente ripristinando lo stato precedente o mostrando un messaggio all'utente
+            });
+    }
+
     return (
         <DragDropContext onDragEnd={onDragEnd}>
             <h1 className="title mx-4">{board.title}</h1>
@@ -129,14 +140,17 @@ export default function Board(props) {
                                         className=" p-3"
                                     >
                                         <div className="card p-3" style={{ width: "15vw", backgroundColor: "#4D5771", opacity: "95%" }}>
-                                            <p className="title-secondary">{list.title}</p>
+                                            <div className="d-flex justify-content-between">
+                                                <p className="title-secondary">{list.title}</p>
+                                                <h1 className="title-secondary" onClick={() => deleteList(list.id)}>X</h1>
+                                            </div>
                                             {/* <p>{list.position}</p> */}
                                             {/* Droppable per le task */}
                                             <Droppable droppableId={`droppable-tasklist-${list.title}`} type="task">
                                                 {(provided) => (
                                                     <div ref={provided.innerRef} {...provided.droppableProps}>
                                                         {list.my_tasks && list.my_tasks.map((task, taskIndex) => (
-                                                            <SingleTask key={task.id} task={task} index={taskIndex} />
+                                                            <SingleTask key={task.id} task={task} index={taskIndex} loadBoard={loadBoard} />
                                                         ))}
                                                         {provided.placeholder}
                                                     </div>
