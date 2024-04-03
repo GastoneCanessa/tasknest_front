@@ -106,3 +106,53 @@
     outline: 2px solid #40d3fb;
     opacity: 50%;
 }
+
+.homepage-title {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+}
+
+.homepage-title h1 {
+    font-family: "Nunito", sans-serif;
+    font-weight: 700;
+    font-size: 3vw;
+    columns: auto;
+    margin: 0%;
+    padding: 0%;
+}
+
+
+.homepage-title h2 {
+    font-family: "Nunito", sans-serif;
+    font-weight: 700;
+    font-size: 3vw;
+    margin: 0%;
+    padding: 0%;
+    color: rgb(67, 214, 255);
+}
+
+
+.home-btn {
+    display: inline-block;
+    width: 10vw;
+    padding: 6px 15px;
+    font-size: 20px;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #45547B;
+    color: #EAEBED;
+    margin-block: 1vh;
+    font-weight: 350;
+    transition: background-color 0.3s;
+}
+
+.home-btn:hover {
+    background-color: rgb(67, 214, 255);
+    color: #45547B;
+}

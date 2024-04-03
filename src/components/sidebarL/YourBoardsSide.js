@@ -18,6 +18,10 @@ export default function YourBoardsSide(props) {
                 </div>
                 <hr />
             </div>
+            <div className='nb-button' onClick={() => setShowNewBoardForm(true)} >
+                <FontAwesomeIcon icon={faPlus} />
+                <h5 style={{ color: "white" }}>New board</h5>
+            </div>
             <div className='px-3'>
                 {props.boards.map((board, index) => (
                     <div className='d-flex align-items-center' key={board.id || index} >
@@ -38,10 +42,6 @@ export default function YourBoardsSide(props) {
                         </div>
                     </div>
                 ))}
-                <div className='nb-button' onClick={() => setShowNewBoardForm(true)} >
-                    <FontAwesomeIcon icon={faPlus} />
-                    <h5 style={{ color: "white" }}>New board</h5>
-                </div>
             </div>
             {showNewBoardForm && <NewBoardForm onClose={() => setShowNewBoardForm(false)} onBoardAdded={props.handleNewBoardAdded} />}
         </div>
