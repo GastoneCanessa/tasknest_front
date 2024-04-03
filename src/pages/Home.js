@@ -35,7 +35,7 @@ export default function Home() {
 
     return (
         <div className="row" style={{ minHeight: "92vh" }}>
-            <div className="col-2 p-3" style={{ background: "#9CA7C4" }}><YourBoardsSide boards={boards} setBoard={setBoard} handleNewBoardAdded={handleNewBoardAdded} /></div>
+            <div className="col-2 p-3" style={{ background: "#92A1C9" }}><YourBoardsSide boards={boards} setBoard={setBoard} handleNewBoardAdded={handleNewBoardAdded} /></div>
 
             {isBoardEmpty() ?
                 <div className="col-10 py-3 px-5 py-1" ><YourBoards setBoard={setBoard} boards={boards} /> </div>

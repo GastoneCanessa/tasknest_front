@@ -34,3 +34,75 @@
     color: #EAEBED;
     margin: 0;
 }
+
+.inputtitle {
+
+    width: 25vw;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.inputdescr {
+
+    width: 25vw;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 10vh;
+}
+
+.crea-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: rgba(67, 214, 255, 0.504);
+    color: #EAEBED;
+    border: none;
+    padding: 10px 40px;
+    margin: 10px 2px;
+    width: 6vw;
+    border-radius: 6px;
+    transition-duration: 0.3s;
+}
+
+.crea-button h5 {
+    font-weight: 100;
+    margin: 0;
+}
+
+.crea-button:hover {
+    background-color: rgb(66, 202, 239);
+    color: #1d1f28;
+
+}
+
+
+
+.close-button {
+    border: none;
+    background: none;
+    color: rgba(67, 214, 255, 0.404);
+    transition-duration: 0.3s;
+}
+
+.close-button:hover {
+    color: rgb(67, 214, 255);
+
+    transform: scale(1.2);
+}
+
+.bg-image {
+    width: 110px;
+    height: 70px;
+
+}
+
+.bg-image:focus,
+.bg-image:active {
+    outline: 2px solid #40d3fb;
+    opacity: 50%;
+}
