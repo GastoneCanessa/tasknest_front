@@ -1,6 +1,41 @@
 hr {
-    height: 15px solid;
+    border: 0.1vw solid #151925;
     width: 20%;
-    margin: 20px;
-    color: #4D5771;
+
+}
+
+.nb-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    padding-inline: 0.75rem;
+    padding-block: 0.5rem;
+    margin-top: 1rem;
+    background-color: rgba(67, 214, 255, 0.404);
+    width: 90%;
+    transition-duration: 0.3s;
+}
+
+
+.nb-button h5 {
+    color: #EAEBED;
+    margin: 0;
+}
+
+.nb-button:hover {
+    background-color: rgb(67, 214, 255);
+    transform: scale(1.05);
+}
+
+.yb-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+h6 {
+    margin: 0;
 }
