@@ -65,29 +65,28 @@ export default function Register() {
     return (
         <>
             <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "90vh" }}>
-                <div className="container form-container d-flex justify-content-center align-items-center p-4 my-5 col-5" style={{ backgroundColor: "#4D5771", borderRadius: "20px", height: "60vh" }}>
+                <div className="container form-container d-flex flex-column justify-content-center align-items-center p-4 my-5 col-5" style={{ backgroundColor: "#45547B", borderRadius: "20px", height: "60vh" }}>
+                    <h2 style={{ color: '#40d3fb' }}>Create a new account</h2>
                     <form className="p-4" style={{ width: "60vh" }}>
                         <div className="mb-3">
-                            <label className="form-label fs-2" style={{ color: "white" }}>Insert Name</label>
-                            <input name="name" type="text" className="form-control" onChange={synchronize} />
+                            <label className="form-label fs-3 fw-lighter" style={{ color: "white" }}>Name</label>
+                            <input name="name" type="text" className="form-control" placeholder="Insert name..." onChange={synchronize} />
                         </div>
                         <div className="mb-3">
-                            <label className="form-label fs-2" style={{ color: "white" }}>Insert Email</label>
-
-                            <input name="email" type="email" className="form-control" aria-describedby="emailHelp" onChange={synchronize} />
+                            <label className="form-label fs-3 fw-lighter" style={{ color: "white" }}>Email</label>
+                            <input name="email" type="email" className="form-control" placeholder="Insert email..." aria-describedby="emailHelp" onChange={synchronize} />
                         </div>
-
                         <div className="mb-3">
-                            <label className="form-label fs-2" style={{ color: "white" }}>Insert Password</label>
-                            <input name="password" type="password" className="form-control " onChange={synchronize} />
+                            <label className="form-label fs-3 fw-lighter" style={{ color: "white" }}>Password</label>
+                            <input name="password" type="password" className="form-control " placeholder="Insert password..." onChange={synchronize} />
                         </div>
-
                         <div className="d-flex justify-content-center">
-                            <input className="btn  mb-2 mt-5 fs-4 fw-lighter" style={{ background: "#2C3240", color: "white", width: "20vh" }} type="button" onClick={sendRegistration} value="Register" />
+                            <input className="log-button" style={{ width: "15vh" }} type="button" onClick={sendRegistration} value="Register" />
                         </div>
                     </form>
                 </div>
             </div>
+
             {showErrorPopup && <ErrorPopup message={errorMessage} onClose={() => setShowErrorPopup(false)} />}
         </>
     )

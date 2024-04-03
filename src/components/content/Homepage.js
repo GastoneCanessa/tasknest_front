@@ -9,10 +9,13 @@ export default function Homepage() {
         <>
 
             <div className="d-flex flex-column justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
-
-                <h1 className="mb-5 fw-bold">Welcome to TaskNest!</h1>
-                <Link className="btn  mb-2 mt-5 fw-lighter fs-4" style={{ background: "#4D5771", color: "white", width: "20vh" }} to="/user/login">Login</Link>
-                <Link className="btn  my-2 fw-lighter fs-4" style={{ background: "#4D5771", color: "white", width: "20vh" }} to="/user/register">Register</Link>
+                <div className="homepage-title mb-5">
+                    <h1 >Welcome to Task</h1>
+                    <h2 >Nest</h2>
+                    <h1 >!</h1>
+                </div>
+                <Link className="home-btn " to="/user/login">Login</Link>
+                <Link className="home-btn" to="/user/register">Register</Link>
             </div>
 
 
