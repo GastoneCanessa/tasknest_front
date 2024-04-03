@@ -144,8 +144,8 @@ export default function Board(props) {
                                             </Droppable>
                                             {
                                                 activeListForNewTask === list.id ?
-                                                    <div className="p-3">
-                                                        <div className="card p-3" >
+                                                    <div className="">
+                                                        <div className="card p-1" >
                                                             <div className="d-flex">
                                                                 <NewTaskForm tasklist_id={list.id} loadBoard={loadBoard} onClose={() => setActiveListForNewTask(null)} />
                                                             </div>
@@ -154,7 +154,7 @@ export default function Board(props) {
                                                     :
                                                     <div className="" onClick={() => { handleToggleNewTaskForm(list.id) }}>
                                                         <div className="card px-4 pt-2" style={{ backgroundColor: 'rgba(255, 255, 255, 0.3)' }}>
-                                                            <div className="d-flex">
+                                                            <div className="d-flex" >
                                                                 <h4>+&nbsp;</h4><p> Add Task</p>
                                                             </div>
                                                         </div>

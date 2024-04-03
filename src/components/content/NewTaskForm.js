@@ -31,18 +31,17 @@ export default function NewTaskForm(props) {
 
     return (
         <div>
-            <form className='' onSubmit={handleSubmit}>
+            <form className='my-1' onSubmit={handleSubmit}>
                 <div>
-                    <input type="text" name="title" onChange={handleInputChange} placeholder="Inserisci un titolo " />
+                    <input type="text" name="title" onChange={handleInputChange} placeholder="Inserisci un titolo" />
                 </div>
 
-                <div className='d-flex justify-content-center'>
-                    <div>
-                        <button type="submit"><h5>Aggiungi Task</h5></button>
-                    </div>
+                <div className='d-flex justify-content-center mt-2'>
+                    <button className="me-2 rounded-3" type="submit"><h5>Aggiungi Task</h5></button>
+                    <h3 onClick={() => { props.onClose() }}>x</h3>
                 </div>
             </form>
-            <h3 onClick={() => { props.onClose() }}>x</h3>
+
         </div>
     )
 };

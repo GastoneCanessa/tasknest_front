@@ -32,16 +32,14 @@ export default function NewListForm(props) {
         <div>
             <form className='' onSubmit={handleSubmit}>
                 <div>
-                    <input type="text" name="title" onChange={handleInputChange} placeholder="Inserisci un titolo alla lista" />
+                    <input className="p-1" type="text" name="title" onChange={handleInputChange} placeholder="Inserisci un titolo alla lista" />
                 </div>
 
-                <div className='d-flex justify-content-center'>
-                    <div>
-                        <button type="submit"><h5>Aggiungi lista</h5></button>
-                    </div>
+                <div className='d-flex justify-content-center mt-3'>
+                    <h3 className="mx-2" onClick={() => { props.onClose() }}>x</h3>
+                    <button className="mx-2 rounded-3" type="submit"><h5>Aggiungi lista</h5></button>
                 </div>
             </form>
-            <h3 onClick={()=>{props.onClose()}}>x</h3>
         </div>
     )
 }
