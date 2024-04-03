@@ -128,7 +128,7 @@ export default function Board(props) {
                                         {...provided.dragHandleProps}
                                         className=" p-3"
                                     >
-                                        <div className="card p-3" style={{ width: "15vw", backgroundColor: "#4D5771" }}>
+                                        <div className="card p-3" style={{ width: "15vw", backgroundColor: "#4D5771", opacity: "95%" }}>
                                             <p className="title-secondary">{list.title}</p>
                                             {/* <p>{list.position}</p> */}
                                             {/* Droppable per le task */}
