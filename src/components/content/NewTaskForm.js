@@ -37,7 +37,7 @@ export default function NewTaskForm(props) {
                 </div>
 
                 <div className='d-flex justify-content-center mt-2'>
-                    <button className="me-2 rounded-3" type="submit"><h5>Aggiungi Task</h5></button>
+                    <button className="me-2 px-3 rounded-3" type="submit"><h6>Aggiungi Task</h6></button>
                     <h3 onClick={() => { props.onClose() }}>x</h3>
                 </div>
             </form>

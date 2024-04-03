@@ -12,13 +12,14 @@ function SingleTask({ task, index }) {
                     {...provided.dragHandleProps}
                     className="card my-2"
                 >
+                    <Link className=" " to={"/task/" + task.id}>
                     <div className="card px-3 py-1" style={{ backgroundColor: "#2C3240" }}>
-                        <Link className=" " to={"/task/" + task.id}>premi qui</Link>
-
+                        {/* <Link className=" " to={"/task/" + task.id}>premi qui</Link> */}
                         <p className='title-secondary'>{task.title}</p>
                         {/* <p>{task.position}</p> */}
                         {/* Qui puoi aggiungere ulteriori dettagli della task */}
                     </div>
+                    </Link>
                 </div>
             )}
         </Draggable>
