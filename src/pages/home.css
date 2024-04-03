@@ -1,0 +1,22 @@
+.log-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: rgba(67, 214, 255, 0.504);
+    color: #EAEBED;
+    border: none;
+    padding: 5px;
+    margin: 10px 2px;
+    width: 5vw;
+    border-radius: 6px;
+    transition-duration: 0.3s;
+    font-size: large;
+    font-weight: 500;
+}
+
+.log-button:hover {
+    background-color: rgb(66, 202, 239);
+    color: #1d1f28;
+
+}

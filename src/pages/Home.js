@@ -7,6 +7,7 @@ import { useAtom } from 'jotai';
 import Board from '../components/content/Board';
 import axios from 'axios';
 import backgrounds from '../assets/background';
+import '../pages/home.css'
 
 export default function Home() {
     const [user, setUser] = useAtom(currentUser)

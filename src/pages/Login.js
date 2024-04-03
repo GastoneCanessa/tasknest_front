@@ -71,26 +71,29 @@ export default function Login() {
         <>
 
             <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "90vh" }}>
-                <div className="container form-container d-flex justify-content-center align-items-center p-4 my-5 col-5" style={{ backgroundColor: "#4D5771", borderRadius: "20px", height: "45vh" }}>
-                    <form>
+                <div className="container form-container d-flex flex-column justify-content-center align-items-center p-4 my-5" style={{ backgroundColor: "#45547B", borderRadius: "20px", height: "45vh", width: '35vw' }}>
+                    <div className="mb-3 text-center">
+                        <h2 style={{ color: '#40d3fb' }}>Enter with an existing account</h2>
+                    </div>
+                    <form style={{ width: "60%" }}>
                         <div className="mb-3">
-                            <label className="form-label fs-2" style={{ color: "white" }}>Email</label>
-                            <input name="email" type="email" className="form-control" style={{ width: "60vh" }} value={login.mail} onChange={synchronize} />
+                            <label className="form-label fs-3 fw-lighter" style={{ color: "white" }}>Email</label>
+                            <input name="email" type="email" className="form-control" placeholder="Enter email..." style={{ width: "100%" }} value={login.mail} onChange={synchronize} />
                         </div>
 
                         <div className="mb-3">
-                            <label className="form-label fs-2" style={{ color: "white" }}>Password</label>
-                            <input name="password" type="password" className="form-control" style={{ width: "60vh" }} value={login.password} onChange={synchronize} />
+                            <label className="form-label fs-3 fw-lighter" style={{ color: "white" }}>Password</label>
+                            <input name="password" type="password" className="form-control" placeholder="Enter password..." style={{ width: "100%" }} value={login.password} onChange={synchronize} />
                         </div>
 
                         {showErrorPopup && <ErrorPopup message={errorMessage} onClose={() => setShowErrorPopup(false)} />}
-                        <div className="text-center">
-                            <input className="btn  mb-2 mt-5 fs-4 fw-lighter" style={{ background: "#2C3240", color: "white", width: "20vh" }} type="button" onClick={sendForm} value="Login" />
+                        <div className="d-flex justify-content-center">
+                            <input className="log-button" type="button" onClick={sendForm} value="Login" />
                         </div>
-
                     </form>
                 </div>
             </div>
+
 
         </>
     )
