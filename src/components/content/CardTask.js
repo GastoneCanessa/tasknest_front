@@ -1,14 +1,17 @@
 import axios from "axios";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { currentUser } from '../../App';
 import '../content/content.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 
 export default function CardTask() {
 
     const { id } = useParams();
+    const navigate = useNavigate();
     const [user, setUser] = useAtom(currentUser);
     const [task, setTask] = useState({});
     const [showTextBox, setShowTextBox] = useState(false);
@@ -210,7 +213,7 @@ export default function CardTask() {
                     style={{ backgroundColor: "#2C3240", color: "#DCDCDC", width: "100%" }}
                     className="card p-2 mb-2"
                 />
-                <button type="submit" className="btn me-2" style={{ background: "#8492B4" }} >Send</button>
+                <button type="submit" className="button-light me-2" >Send</button>
                 <button className="btn text-decoration-underline " onClick={toggleTextBox}>Back</button>
             </form>
         );
@@ -301,16 +304,23 @@ export default function CardTask() {
             });
     }
 
+    function exit() {
+        navigate("/user/home")
+    }
+
 
     return (
         <>
             <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "90vh" }}>
-                <div className="container form-container px-4 py-3 my-5 col-6 row" style={{ backgroundColor: "#4D5771", borderRadius: "20px" }}>
+                <div className="container form-container  py-3 my-5 col-6 row" style={{ backgroundColor: "#515f82", borderRadius: "20px" }}>
+                    <div className="col-auto">
+                        <button type="button" className='close-button' onClick={exit} ><FontAwesomeIcon icon={faXmark} className='fs-3' /></button>
+                    </div>
                     <div className="col">
-                        <h3 className="title" >{task.title}  </h3>
+                        <h3 className="title" style={{ color: '#40d3fb' }} >{task.title}  </h3>
 
                         <div className="d-flex mb-4">
-                            <h5 className="fw-light me-3" style={{ color: "#EAEBED" }}> Status: </h5>
+                            <h5 className=" me-2" > Status: </h5>
                             <h5 className="fw-semibold" style={{ color: "#EAEBED" }}>{task.state}</h5>
                         </div>
 
@@ -331,12 +341,13 @@ export default function CardTask() {
                         <div className="mb-4">
                             {task.assigned_to && task.assigned_to.map((u) => (
                                 <div className="d-flex">
-                                    <h5>- {u.name}</h5>
-                                    <button className="btn text-decoration-underline mb-4 ms-3 p-0" onClick={() => handleRemoveUser(u.id)} >Remove</button>
+                                    <h5 style={{ color: '#40d3fb' }} className="me-2">•</h5>
+                                    <h5>{u.name}</h5>
+                                    <button className="btn text-decoration-underline mb-2 ms-3 p-0" onClick={() => handleRemoveUser(u.id)} >Remove</button>
                                 </div>
                             ))}
                             <form onSubmit={addUser}>
-                                <h5 className="fw-semibold ">Add participant </h5>
+                                <h5 className="fw-semibold mt-4 ">Add participant </h5>
                                 <input type="text" name="email" onChange={handleAddUser} placeholder="Insert email" style={{ backgroundColor: "#2C3240", color: "#DCDCDC", width: "100%" }} className="card p-2 mb-2" />
                                 <button type="submit" className="button-light " >Add</button>
                             </form>
@@ -351,10 +362,12 @@ export default function CardTask() {
                                 </>
                                 :
                                 <>
-                                    <div className="mb-2">
+                                    <div className="mb-3">
                                         <div className="d-flex justify-content-between">
-
-                                            <h5 className="fw-semibold ">{comment.author_name} </h5>
+                                            <div className="d-flex">
+                                                <h5 style={{ color: '#40d3fb' }} className="me-2">•</h5>
+                                                <h5 className="fw-semibold ">{comment.author_name} </h5>
+                                            </div>
                                             <p style={{ marginBottom: 0 }}>at {comment.made_at}</p>
                                         </div>
                                         <div className="card  p-2" style={{ backgroundColor: "#2C3240", color: "#EAEBED" }}>
@@ -362,7 +375,7 @@ export default function CardTask() {
                                         </div>
                                         {comment.author_id == user.id &&
                                             <>
-                                                <button className="btn text-decoration-underline mb-2 p-0 me-3" onClick={() => deleteComment(comment.id)}>Delete</button>
+                                                <button className="btn text-decoration-underline mb-2 p-0 me-3" style={{}} onClick={() => deleteComment(comment.id)}>Delete</button>
                                                 <button className="btn text-decoration-underline mb-2 p-0" onClick={() => { toggleCommentBox(); setIndex(comment.id); setModifiedComm({ ...comment }); }}>Modify</button>
                                             </>
                                         }

@@ -1,9 +1,12 @@
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { Link } from 'react-router-dom';
 
 function SingleTask({ task, index, loadBoard }) {
+
 
     function deleteTask(idTask, event) {
         event.stopPropagation(); // Questo impedisce che l'evento di click si propaghi al componente Link.
@@ -33,7 +36,7 @@ function SingleTask({ task, index, loadBoard }) {
                             <Link className=" " to={"/task/" + task.id}>
                                 <p className='title-secondary'>{task.title}</p>
                             </Link>
-                            <div className="title-secondary" onClick={(event) => deleteTask(task.id, event)}>X</div>
+                            <div className="title-secondary" onClick={(event) => deleteTask(task.id, event)}><FontAwesomeIcon icon={faXmark} className='fs-5' /></div>
                         </div>
                         {/* <p>{task.position}</p> */}
                         {/* Qui puoi aggiungere ulteriori dettagli della task */}

@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { useAtom } from 'jotai';
 import { currentUser } from "../../App";
 import { useNavigate } from 'react-router';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRightFromBracket, faCircle } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -17,7 +19,7 @@ const Navbar = () => {
 
     return (
         <div className="" style={{ background: "#45547B" }}>
-            <nav className="navbar navbar-expand-lg navbar-light ">
+            <nav className="navbar navbar-expand-lg navbar-light " style={{ height: '5vh' }}>
                 <div className="container-fluid">
                     {/* <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
@@ -26,13 +28,13 @@ const Navbar = () => {
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             {!isUserNotEmpty ? (
                                 <>
-                                    <a className="navbar-brand" href="/">TaskNest</a>
-                                    <a className="nav-link active" aria-current="page" href="/">Home</a>
+                                    <a className="navbar-brand d-flex ms-3" href="/"><h4 style={{ color: '#EAEBED' }}>Task</h4><h4 style={{ color: '#40d3fb' }}>Nest</h4></a>
+                                    {/* <a className="nav-link active" aria-current="page" href="/">Home</a> */}
                                 </>
                             ) : (
                                 <>
-                                    <a className="navbar-brand" href="/user/home">TaskNest</a>
-                                    <a className="nav-link active" aria-current="page" href="/user/home">Home</a>
+                                    <a className="navbar-brand d-flex ms-3" href="/user/home"><h4 style={{ color: '#EAEBED' }}>Task</h4><h4 style={{ color: '#40d3fb' }}>Nest</h4></a>
+                                    {/* <a className="nav-link active" aria-current="page" href="/user/home">Home</a> */}
                                 </>
                             )}
                             {/* <li className="nav-item">
@@ -57,11 +59,15 @@ const Navbar = () => {
 
 
                         {!isUserNotEmpty ? (
-                            <Link className="nav-link  fst-italic fw-semibold fs-5 login-link" to="user/login">Login</Link>
+                            <Link className="nav-link  fst-italic fw-semibold fs-5 login-link" style={{ color: '#EAEBED' }} to="user/login">Login</Link>
                         ) : (
-                            <>
-                                <button className="nav-link  fst-italic fw-semibold fs-5 login-link" onClick={logOut}>Log Out</button>
-                            </>
+                            <div className="d-flex justify-content-between me-4" style={{ width: '15vw' }}>
+                                <div className="d-flex align-items-center">
+                                    <FontAwesomeIcon icon={faCircle} className="me-2 " style={{ color: '#40d3fb' }} />
+                                    <h5 style={{ color: '#EAEBED', margin: '0' }}>{user.name}</h5>
+                                </div>
+                                <button className="nav-link d-flex  align-items-center fst-italic fw-semibold fs-5 login-link" onClick={logOut} style={{ color: '#EAEBED' }}><FontAwesomeIcon icon={faArrowRightFromBracket} /><h5 className="ms-2" style={{ margin: '0' }}>Log Out</h5></button>
+                            </div>
                         )}
                     </div>
                 </div>
