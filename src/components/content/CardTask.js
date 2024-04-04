@@ -52,6 +52,13 @@ export default function CardTask() {
         }
     )
 
+    const [dueTO, setDueTo] = useState(
+        {
+            id: "",
+            dueTo: ""
+        }
+    )
+
     function getTasks() {
         axios.get("/tasks/" + id)
             .then((resp) => {
@@ -75,6 +82,14 @@ export default function CardTask() {
         let clone = { ...newComment };
         clone['body'] = event.target.value;
         setNewComment(clone);
+    };
+
+    function handleChangeAddTo(event) {
+
+        let clone = { ...dueTO };
+        clone['id'] = task.id;
+        clone['dueTo'] = event.target.value;
+        setDueTo(clone);
     };
 
     function handleAddUser(event) {
@@ -304,6 +319,22 @@ export default function CardTask() {
             });
     }
 
+    function addDueTo(event) {
+
+        event.preventDefault();
+        console.log(dueTO);
+        axios.put("/tasks/dueTo", dueTO)
+            .then(response => {
+                setTask(prevTask => ({
+                    ...prevTask,
+                    assigned_to: [...prevTask.assigned_to, response.data]
+                }));
+                getTasks();
+            }
+            ).catch(error => {
+                console.error(error.response.data);
+            });
+    }
     function exit() {
         navigate("/user/home")
     }
@@ -349,6 +380,15 @@ export default function CardTask() {
                             <form onSubmit={addUser}>
                                 <h5 className="fw-semibold mt-4 ">Add participant </h5>
                                 <input type="text" name="email" onChange={handleAddUser} placeholder="Insert email" style={{ backgroundColor: "#2C3240", color: "#DCDCDC", width: "100%" }} className="card p-2 mb-2" />
+                                <button type="submit" className="button-light " >Add</button>
+                            </form>
+                        </div>
+
+                        <h5 style={{ color: "#EAEBED" }} className="fw-semibold" p>Due to:</h5>
+                        <div className="mb-4">
+                            <form onSubmit={addDueTo}>
+                                <h5 className="fw-semibold ">Mod date </h5>
+                                <input type="date" name="addTo" value={dueTO.dueTo} onChange={handleChangeAddTo} style={{ backgroundColor: "#2C3240", color: "#DCDCDC", width: "100%" }} className="card p-2 mb-2" />
                                 <button type="submit" className="button-light " >Add</button>
                             </form>
                         </div>
