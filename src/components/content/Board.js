@@ -5,12 +5,15 @@ import SingleTask from "./SingleTask";
 import NewListForm from "./NewListForm";
 import NewTaskForm from "./NewTaskForm";
 import '../content/content.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 
 export default function Board(props) {
     const [board, setBoard] = useState({ my_tasklists: [], title: "azz" });
     const [fliker, setFliker] = useState(true);
     const [activeListForNewTask, setActiveListForNewTask] = useState(null);
+
 
     const loadBoard = () => {
         axios.get(`/boards/${props.board.id}`)
@@ -142,7 +145,7 @@ export default function Board(props) {
                                         <div className="card p-3" style={{ width: "15vw", backgroundColor: "#4D5771", opacity: "95%" }}>
                                             <div className="d-flex justify-content-between">
                                                 <p className="title-secondary">{list.title}</p>
-                                                <h1 className="title-secondary" onClick={() => deleteList(list.id)}>X</h1>
+                                                <h1 className="title-secondary" onClick={() => deleteList(list.id)}><FontAwesomeIcon icon={faXmark} className='delete-list' /></h1>
                                             </div>
                                             {/* <p>{list.position}</p> */}
                                             {/* Droppable per le task */}

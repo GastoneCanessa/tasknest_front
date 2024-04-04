@@ -156,3 +156,20 @@
     background-color: rgb(67, 214, 255);
     color: #45547B;
 }
+
+.delete-list {
+    padding: 10px;
+    font-size: 20px;
+    text-align: center;
+    font-size: large;
+    color: #40d3fb;
+    border-radius: 50%;
+}
+
+.delete-list:hover {
+    background-color: #6a748d;
+}
+
+.btn:hover {
+    color: #40d3fb;
+}
